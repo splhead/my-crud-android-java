@@ -24,6 +24,10 @@ public class StudentRepository {
         return allStudents;
     }
 
+    public LiveData<List<Student>> findByName(String name) {
+        return studentDao.findByName(name);
+    }
+
     public void insert(Student student) {
         MyCrudDatabase.databaseWriteExecutor.execute(() -> studentDao.insert(student));
     }

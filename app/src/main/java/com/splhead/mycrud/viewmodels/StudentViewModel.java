@@ -25,6 +25,10 @@ public class StudentViewModel extends AndroidViewModel {
         return allStudents;
     }
 
+    public LiveData<List<Student>> findByName(String name) {
+        return studentRepository.findByName(name);
+    }
+
     public void insert(Student student) {
         studentRepository.insert(student);
     }

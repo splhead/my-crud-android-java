@@ -22,6 +22,9 @@ public interface StudentDao {
     @Query("SELECT * FROM student")
     LiveData<List<Student>> getAll();
 
+    @Query("SELECT * FROM student WHERE name LIKE '%' || :name || '%'")
+    LiveData<List<Student>> findByName(String name);
+
     @Delete
     void delete(Student student);
 }

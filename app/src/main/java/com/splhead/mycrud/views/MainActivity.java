@@ -1,9 +1,14 @@
 package com.splhead.mycrud.views;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.splhead.mycrud.R;
 import com.splhead.mycrud.adapters.StudentAdapter;
 import com.splhead.mycrud.databinding.ActivityMainBinding;
 import com.splhead.mycrud.models.Student;
@@ -60,6 +66,36 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(SaveStudentActivity.EXTRA_CEP, student.getCep());
             startForResult.launch(intent);
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setQueryHint("Digite para pesquisar");
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName())
+        );
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String typedText) {
+                studentViewModel.findByName(typedText).observe(MainActivity.this,
+                        students -> adapter.submitList(students));
+                return false;
+            }
+        });
+
+        return true;
     }
 
     private void setupDeleteMovingToLeftOrRight() {
