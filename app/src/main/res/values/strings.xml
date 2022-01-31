@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyCRUD</string>
+    <string name="tvName">Nome</string>
+    <string name="tvCPF">CPF</string>
+    <string name="tvPhone">Telefone</string>
+    <string name="bSave">Salvar</string>
+    <string name="tvZipcode">CEP</string>
+    <string name="fabAddStudent">Adicionar aluno</string>
+</resources>
