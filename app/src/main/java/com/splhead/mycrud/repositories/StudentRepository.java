@@ -11,8 +11,8 @@ import com.splhead.mycrud.models.Student;
 import java.util.List;
 
 public class StudentRepository {
-    private StudentDao studentDao;
-    private LiveData<List<Student>> allStudents;
+    private final StudentDao studentDao;
+    private final LiveData<List<Student>> allStudents;
 
     public StudentRepository(Application application) {
         MyCrudDatabase database = MyCrudDatabase.getInstance(application);

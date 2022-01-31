@@ -1,6 +1,5 @@
 package com.splhead.mycrud.models;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

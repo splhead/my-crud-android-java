@@ -22,9 +22,6 @@ public interface StudentDao {
     @Query("SELECT * FROM student")
     LiveData<List<Student>> getAll();
 
-    @Query("SELECT * FROM student WHERE id = :id")
-    Student findById(int id);
-
     @Delete
     void delete(Student student);
 }
