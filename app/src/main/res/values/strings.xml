@@ -6,4 +6,6 @@
     <string name="bSave">Salvar</string>
     <string name="tvZipcode">CEP</string>
     <string name="fabAddStudent">Adicionar aluno</string>
+    <string name="CEP_is_invalid">CEP inválido ou não encontrado</string>
+    <string name="Loading_address">Buscando endereço…</string>
 </resources>

@@ -2,18 +2,27 @@ package com.splhead.mycrud.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.splhead.mycrud.R;
 import com.splhead.mycrud.databinding.ActivitySaveStudentBinding;
+import com.splhead.mycrud.models.Address;
 import com.splhead.mycrud.util.MaskEditUtils;
+import com.splhead.mycrud.util.RetrofitClient;
 
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SaveStudentActivity extends AppCompatActivity {
+    public static final String TAG = SaveStudentActivity.class.getSimpleName();
     public static final String EXTRA_ID = "com.splhead.mycrud.EXTRA_ID";
     public static final String EXTRA_NAME = "com.splhead.mycrud.EXTRA_NAME";
     public static final String EXTRA_CPF = "com.splhead.mycrud.EXTRA_CPF";
@@ -51,10 +60,40 @@ public class SaveStudentActivity extends AppCompatActivity {
             binding.etName.setText(intent.getStringExtra(EXTRA_NAME));
             binding.etCPF.setText(intent.getStringExtra(EXTRA_CPF));
             binding.etPhone.setText(intent.getStringExtra(EXTRA_PHONE));
-            binding.etCEP.setText(intent.getStringExtra(EXTRA_CEP));
+            String cep = intent.getStringExtra(EXTRA_CEP);
+            binding.etCEP.setText(cep);
+
+            if (!cep.trim().isEmpty()) {
+                binding.tvAddress.setText(R.string.Loading_address);
+                getAddress(cep);
+            }
         } else {
             setTitle("Novo Estudante");
         }
+    }
+
+
+    private void getAddress(String cep) {
+        Call<Address> call = new RetrofitClient().getAddressService().getAddress(cep);
+        call.enqueue(new Callback<Address>() {
+
+            @Override
+            public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
+                Address address = response.body();
+                if (address != null) {
+                    if (address.getLogradouro() == null) {
+                        binding.tvAddress.setText(R.string.CEP_is_invalid);
+                    } else {
+                        binding.tvAddress.setText(address.toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Address> call, @NonNull Throwable t) {
+                Log.e(TAG, "Erro ao buscar endereço\n" + t.getMessage());
+            }
+        });
     }
 
     private void saveStudent() {
