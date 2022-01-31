@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -72,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
+        setupSearch(menu);
+
+        return true;
+    }
+
+    private void setupSearch(Menu menu) {
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
@@ -94,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        return true;
     }
 
     private void setupDeleteMovingToLeftOrRight() {
